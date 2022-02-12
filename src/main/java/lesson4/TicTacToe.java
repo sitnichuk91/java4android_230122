@@ -1,11 +1,10 @@
 package lesson4;
 
-import java.sql.SQLOutput;
 import java.util.Random;
 import java.util.Scanner;
 
 public class TicTacToe {
-    private static final int SIZE = 3;
+    private static int size = 3;
 
     private static final char DOT_EMPTY = '•';
     private static final char DOT_HUMAN = 'X';
@@ -31,15 +30,21 @@ public class TicTacToe {
 
     private static void init() {
         turnsCount = 0;
-        MAP = new char[SIZE][SIZE];
+        enterMapSize();
+        MAP = new char[size][size];
 
         initMap();
     }
 
+    private static void enterMapSize() {
+        System.out.print("Пожайлуйтса, введите размер игрового поля от 3 до 15: ");
+        size = in.nextInt();
+    }
+
 
     private static void initMap() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 MAP[i][j] = DOT_EMPTY;
             }
         }
@@ -51,25 +56,26 @@ public class TicTacToe {
     }
 
     private static void printMapHeader() {
-        System.out.print(HEADER_FIRST_SYMBOL + SPACE_MAP);
-        for (int i = 0; i < SIZE; i++) {
+        System.out.print(SPACE_MAP + HEADER_FIRST_SYMBOL + SPACE_MAP);
+        for (int i = 0; i < size; i++) {
             printMapNumber(i);
         }
         System.out.println();
     }
 
     private static void printMapBody() {
-        for (int i = 0; i < SIZE; i++) {
+        for (int i = 0; i < size; i++) {
             printMapNumber(i);
-            for (int j = 0; j < SIZE; j++) {
-                System.out.print(MAP[i][j] + SPACE_MAP);
+            for (int j = 0; j < size; j++) {
+                System.out.printf("%2c ", MAP[i][j]);
             }
             System.out.println();
         }
     }
 
     private static void printMapNumber(int i) {
-        System.out.print(i + 1 + SPACE_MAP);
+
+        System.out.printf("%2d ", i + 1);
     }
 
     private static void playGame() {
@@ -112,13 +118,13 @@ public class TicTacToe {
 
     private static int getValidNumberFromUser() {
         while (true){
-            System.out.print("Введите координату(1-" + SIZE + "): ");
+            System.out.print("Введите координату(1-" + size + "): ");
             if (in.hasNextInt()){
                 int n = in.nextInt();
                 if (isNumberValid(n)){
                     return n;
                 }
-                System.out.println("\nЗначение координаты должно быть в пределах от 1 до " + SIZE);
+                System.out.println("\nЗначение координаты должно быть в пределах от 1 до " + size);
             } else {
                 in.next();
                 System.out.println("\nВвод допускает лишь целые числа");
@@ -127,7 +133,7 @@ public class TicTacToe {
     }
 
     private static boolean isNumberValid(int n) {
-        return n >= 1 && n <= SIZE;
+        return n >= 1 && n <= size;
     }
     private static boolean isCellFree(int rowNumber, int columnNumber) {
         return MAP[rowNumber][columnNumber] == DOT_EMPTY;
@@ -141,8 +147,8 @@ public class TicTacToe {
         int columnNumber;
 
         do {
-            rowNumber = random.nextInt(SIZE);
-            columnNumber = random.nextInt(SIZE);
+            rowNumber = random.nextInt(size);
+            columnNumber = random.nextInt(size);
 
         } while (!isCellFree(rowNumber,columnNumber));
         MAP[rowNumber][columnNumber] = DOT_AI;
@@ -173,7 +179,7 @@ public class TicTacToe {
             }
         }
         return true;*/
-        return turnsCount >= SIZE * SIZE;
+        return turnsCount >= size * size;
     }
 
     private static boolean checkWin(char symbol) {
