@@ -5,6 +5,10 @@ import java.util.Scanner;
 
 public class TicTacToe {
     private static int size = 3;
+    private static int winSize = 3;
+    private static int lastX;
+    private static int lastY;
+
 
     private static final char DOT_EMPTY = '•';
     private static final char DOT_HUMAN = 'X';
@@ -37,8 +41,22 @@ public class TicTacToe {
     }
 
     private static void enterMapSize() {
-        System.out.print("Пожайлуйтса, введите размер игрового поля от 3 до 15: ");
-        size = in.nextInt();
+        while (true) {
+            System.out.print("Пожайлуйтса, введите размер игрового поля от 3 до 15: ");
+            size = in.nextInt();
+            if (size >= 3 && size <= 5){
+                winSize = 3;
+                break;
+            } else if (size > 5 && size < 10){
+                winSize = 4;
+                break;
+            } else if (size >= 10) {
+                winSize = 5;
+                break;
+            } else {
+                System.out.println("Неправильно введен размер игрового поля!");
+            }
+        }
     }
 
 
@@ -112,6 +130,8 @@ public class TicTacToe {
         }
         MAP[rowNumber][columnNumber] = DOT_HUMAN;
         turnsCount++;
+        lastX = rowNumber;
+        lastY = columnNumber;
     }
 
 
@@ -153,6 +173,8 @@ public class TicTacToe {
         } while (!isCellFree(rowNumber,columnNumber));
         MAP[rowNumber][columnNumber] = DOT_AI;
         turnsCount++;
+        lastX = rowNumber;
+        lastY = columnNumber;
     }
     private static boolean checkEnd(char symbol) {
         if (checkWin(symbol)){
@@ -183,7 +205,7 @@ public class TicTacToe {
     }
 
     private static boolean checkWin(char symbol) {
-        if (MAP[0][0] == symbol && MAP[0][1] == symbol && MAP[0][2] == symbol){
+        /*if (MAP[0][0] == symbol && MAP[0][1] == symbol && MAP[0][2] == symbol){
             return true;
         }
         if (MAP[1][0] == symbol && MAP[1][1] == symbol && MAP[1][2] == symbol){
@@ -206,9 +228,35 @@ public class TicTacToe {
         }
         if (MAP[0][2] == symbol && MAP[1][1] == symbol && MAP[2][0] == symbol){
             return true;
+        }*/
+        int n = 0;
+        for (int i = 0; i < size; i++) {
+            if (MAP[lastX][i] == symbol){
+                n++;
+            } else {
+                n = 0;
+            }
+            if (n == winSize){
+                return true;
+            }
         }
+
+        for (int i = 0; i < size; i++) {
+            if (MAP[i][lastY] == symbol){
+                n++;
+            } else {
+                n = 0;
+            }
+            if (n == winSize){
+                return true;
+            }
+        }
+
         return false;
     }
+
+   
+
     private static boolean isContinueGame() {
         System.out.println("Wanna play one more time? y\\n");
         return switch (in.next()){
