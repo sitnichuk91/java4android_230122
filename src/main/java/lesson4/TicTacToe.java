@@ -255,8 +255,6 @@ public class TicTacToe {
         return false;
     }
 
-
-
     private static boolean isContinueGame() {
         System.out.println("Wanna play one more time? y\\n");
         return switch (in.next()){
