@@ -57,7 +57,7 @@ public class Main {
 
         TwoTestInterface baz = System.out::println;
 
-        
+
         foo.action(2,3);
         bar.action(5, 7);
     }
