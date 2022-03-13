@@ -4,7 +4,9 @@ public class Main {
     public static void main(String[] args) {
         testEnum();
         testAnonClass();
+        testInnerClass();
     }
+
 
 
 
@@ -60,5 +62,12 @@ public class Main {
 
         foo.action(2,3);
         bar.action(5, 7);
+    }
+
+    private static void testInnerClass() {
+        Cat cat = new Cat("Martin", 2, 5, Color.RED);
+
+//        System.out.println(catAttributes);
+        System.out.println(cat);
     }
 }
