@@ -1,9 +1,13 @@
 package lesson14.test;
 
+import com.sun.source.doctree.SeeTree;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.Duration;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,7 +63,20 @@ class CalculatorTest {
 
     @DisplayName("Параметризованный тест таймаута и сложения")
     @ParameterizedTest
+    @MethodSource("data")
     void paramTest(int expected, int a, int b) {
+        Assertions.assertTimeout(Duration.ofSeconds(1), () -> {
+            Assertions.assertEquals(expected, calculator.add(a,b));
+        });
+    }
 
+    static Stream<Arguments> data(){
+        return Stream.of(
+                Arguments.arguments(6, 2, 4),
+                Arguments.arguments(0, 2, -3),
+                Arguments.arguments(0, Integer.MAX_VALUE, Integer.MIN_VALUE),
+                Arguments.arguments(Integer.MIN_VALUE, Integer.MAX_VALUE, 1),
+                Arguments.arguments(-5, 2, -7)
+        );
     }
 }
